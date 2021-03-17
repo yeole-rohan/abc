@@ -32,6 +32,7 @@ def home(request):
         get_certified_selected_agency = Agency.objects.filter (user = request.user.id, already_certified='True')
         servilencepayment = ServilencePayment.objects.get(user=request.user.id, phaseno=1)
         ser_audit = ServilenceAudit.objects.get(user=request.user.id, phoseno=1)
+         
         servilencepayment_two = ServilencePayment.objects.get(user=request.user.id, phaseno=2)
         ser_audit_two = ServilenceAudit.objects.get(user=request.user.id, phoseno=2)
         servilencepayment_three = ServilencePayment.objects.get(user=request.user.id, phaseno=3)
@@ -60,6 +61,7 @@ def home(request):
                                                 elif auditthree.status =="matched":
                                                     if confirmfour:
                                                         if payfour:
+                                                            print(payfour.status)
                                                             if payfour.status =="unmatched":
                                                                 return redirect("portal:utr_missedfour")
                                                             elif payfour.status =="matched":
@@ -532,7 +534,8 @@ def audit_edit_four(request, id):
                 if files.size > int(settings.MAX_UPLOAD_SIZE_IMG):
                     messages.error(request, "Please keep filesize under {}. Current filesize {}".format(filesizeformat(settings.MAX_UPLOAD_SIZE_IMG), filesizeformat(files.size)))
                 else:
-                    Audit.objects.filter(id=id).update(document=files)
+                    handle_uploaded_file(files)
+                    Audit.objects.filter(id=id).update(document=files,status="pending")
                     return redirect('portal:pending4')
             else:
                 messages.error(request, "File is not supported")
@@ -686,14 +689,11 @@ def audit_edit(request, id):
             print(audit.is_valid())
             files = audit.cleaned_data['files']
             content_type  = files.content_type.split('/')[1]
-            print(files)
-            print(files.size)
-            print(files.content_type)
-            print(files.content_type.split())
             if content_type in settings.CONTENT_TYPES:
                 if files.size > int(settings.MAX_UPLOAD_SIZE):
                     messages.error(request, "Please keep filesize under {}. Current filesize {}".format(filesizeformat(settings.MAX_UPLOAD_SIZE), filesizeformat(files.size)))
                 else:
+                    handle_uploaded_file(files)
                     Audit.objects.filter(id=id).update(document=files)
                     return redirect('portal:pending3')
             else:
@@ -957,3 +957,8 @@ class ObservarRegsiter(CreateView):
     form_class= ObservarSignUpForm
     template_name = 'registration/User-Sign-Up.html'
     success_url = reverse_lazy('login')
+
+def handle_uploaded_file(f):   
+    with open('media/document/'+f.name, 'wb+') as destination:   
+        for chunk in f.chunks(): 
+            destination.write(chunk)

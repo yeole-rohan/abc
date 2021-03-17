@@ -1,5 +1,6 @@
 {% extends '../base.html' %}
 {% block content %}
+{% load static %}
 <div class="container">
   <div class="error">
         {% for message in messages %}
@@ -32,8 +33,13 @@
         <form method="POST" enctype='multipart/form-data'>
         {% csrf_token %}
             {{ audit_form.files }}
-            <button type="submit" class="pay">Submit</button>
+            <button type="submit" class="pay"  disabled="disabled">Submit</button>
         </form>
     </div>
 </div>
 {% endblock content %}
+{% block javascript %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>    
+    <script src="{% static 'js/main.js' %}"></script>
+
+{% endblock javascript %}

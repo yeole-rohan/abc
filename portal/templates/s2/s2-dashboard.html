@@ -267,7 +267,7 @@
                                     <tr>
                                         {% for user in audit.user.all %}
                                             <td>{{audit.date}}</td>
-                                            <td><a target="_blank" href="/media/{{audit.document}}">{{audit.document.name}}</a></td>
+                                            <td><a target="_blank" href="/media/document/{{audit.document}}">{{audit.document.name}}</a></td>
                                             <td>{{user.first_name}} {{user.last_name}}</td>
                                             <td>{{audit.phoseno}}(Servilence)</td>
                                             <td>{{ audit_form.select_check}}</td>

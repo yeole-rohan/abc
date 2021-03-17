@@ -45,7 +45,7 @@
                         <form method="POST" enctype='multipart/form-data'>
                         {% csrf_token %}
                         {{audit.document}}
-                        <button class="pay" name='audit' type="submit">Submit</button>
+                        <button class="pay" name='audit' type="submit" disabled="disabled">Submit</button>
                     </form>
                 {% endif %}
                    
@@ -64,7 +64,9 @@
                     {% csrf_token %}
                     {{confirm.yes_no}}<label class="form-check-label" for="exampleCheck1">मी पुष्टी केली, आम्हाला यशस्वीरित्या आयएसओ प्रमाणपत्र प्राप्त झाले आहे. </label>
                     </br>
-                    <button type="submit" name="confirm" class="btn btn-primary">Submit</button>
+                     {% if  audit_obj %}
+                    <button type="submit" id="confirm3" name="confirm" class="btn btn-primary">Submit</button>
+                    {% endif %}
                 </form>
             </div>
         </div>
