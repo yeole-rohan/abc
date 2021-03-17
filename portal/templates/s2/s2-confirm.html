@@ -1,0 +1,57 @@
+{% extends '../base.html' %}
+{% block content %}
+    <div class="container">
+      <div class="error">
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+        <div class="outer">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">UTR Number</th>
+                <th scope="col">Approve</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>                  
+                    <td >{{get_payment.date}}</td>
+                    <td >{{ get_payment.utrno }}</td>
+                    <td>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{pay_approve.pay}}
+                            {{pay_approve.remark}}
+                            <p>If utr is unmatched, its required to add remark.</p>
+                            <button type="submit" class="pay">Confirm</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+{% endblock content %}

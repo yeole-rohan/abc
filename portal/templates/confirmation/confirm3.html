@@ -1,0 +1,80 @@
+{% extends '.././base.html' %}
+{% block content %}
+{% load static %}
+    <div class="container">
+      <div class="error">
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+        <div class="outer payments-div">
+            <h3 class="selection">Phase</h3>
+            <small>Step Three</small>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="info">
+                        <p>प्रमाणिकरणापूर्वीचे परिक्षण</p>
+                        <p class="sub-info pos-rel">(Pre-Certification Audit)</p>
+                        <p class="count">₹ 7788.00 + ₹ 1188<small>18% GST</small> = 8976.00</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                {% if audit_obj %}
+                    <img class="img-fluid" src="{% static '/img/green_circle_tick.png' %}">
+                    {% else %}
+                        <form method="POST" enctype='multipart/form-data'>
+                        {% csrf_token %}
+                        {{audit.document}}
+                        <button class="pay " name='audit' type="submit" disabled="disabled">Submit</button>
+                    </form>
+                {% endif %}
+                   
+                </div>
+            </div> 
+            </br></br>
+            {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+            <div class="form-group form-check text-center">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{confirm.yes_no}}<label class="form-check-label" for="exampleCheck1">मी पुष्टी केली, आम्ही पूर्व-ऑडिट यशस्वीरित्या पूर्ण केले. </label>
+                    </br>
+                     {% if  audit_obj %}
+                    <button type="submit" id="confirm3" name="confirm" class="btn btn-primary">Submit</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+{% block javascript %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>    
+    <script src="{% static 'js/main.js' %}"></script>
+
+{% endblock javascript %}
