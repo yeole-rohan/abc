@@ -11,17 +11,17 @@
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 {% comment %} Details {% endcomment %}
                 <li class="nav-item ">
-                    <a class="nav-link active" id="pills-details-tab" data-toggle="pill" href="#pills-details" role="tab" aria-controls="pills-details" aria-selected="false">Details</a>
+                    <a class="nav-link active" id="pills-details-tab" data-toggle="pill" href="#pills-details" role="tab" aria-controls="pills-details" aria-selected="true">Details</a>
                 </li>
 
                 {% comment %} gp-details {% endcomment %}
                 <li class="nav-item">
-                    <a class="nav-link " id="pills-gp-details-tab" data-toggle="pill" href="#pills-gp-details" role="tab" aria-controls="pills-gp-details" aria-selected="true">GP Details</a>
+                    <a class="nav-link " id="pills-gp-details-tab" data-toggle="pill" href="#pills-gp-details" role="tab" aria-controls="pills-gp-details" aria-selected="false">GP Details</a>
                 </li>
         </ul>
         <div class="tab-content" id="pills-tabContent">
                 {% comment %} Details {% endcomment %}
-                <div class="tab-pane fade show active" id="pills-pending" role="tabpanel" aria-labelledby="pills-pending-tab">
+                <div class="tab-pane fade show active" id="pills-details" role="tabpanel" aria-labelledby="pills-details-tab">
                     <table data-toggle="table" data-custom-sort="customSort" data-pagination="true" data-search="true">
                         <thead>
                             <tr>
@@ -33,7 +33,6 @@
                                 <th scope="col" data-sortable="true">phase</th>
                                 <th scope="col" data-sortable="true">District</th>
                                 <th scope="col" data-sortable="true">Taluka</th>
-                                <th scope="col" data-sortable="true">Panchayat</th>
                             </tr>
                         </thead>
                         <tbody>
